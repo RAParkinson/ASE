@@ -1,0 +1,9 @@
+C:\Users\rapar\source\repos\ASE\ASE\bin\Debug\ASE.exe.config
+C:\Users\rapar\source\repos\ASE\ASE\bin\Debug\ASE.exe
+C:\Users\rapar\source\repos\ASE\ASE\bin\Debug\ASE.pdb
+C:\Users\rapar\source\repos\ASE\ASE\obj\Debug\ASE.csprojAssemblyReference.cache
+C:\Users\rapar\source\repos\ASE\ASE\obj\Debug\ASE.Form1.resources
+C:\Users\rapar\source\repos\ASE\ASE\obj\Debug\ASE.Properties.Resources.resources
+C:\Users\rapar\source\repos\ASE\ASE\obj\Debug\ASE.csproj.GenerateResource.cache
+C:\Users\rapar\source\repos\ASE\ASE\obj\Debug\ASE.exe
+C:\Users\rapar\source\repos\ASE\ASE\obj\Debug\ASE.pdb
