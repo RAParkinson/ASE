@@ -66,7 +66,7 @@ namespace ASE
                     {
                         width = Int32.Parse(sSplit[1]);
                         height = Int32.Parse(sSplit[2]);
-
+                        DrawTo();
                     }
                     if (command == "clear")
                     {
@@ -84,13 +84,14 @@ namespace ASE
                     {
                         width = Int32.Parse(sSplit[1]);
                         height = Int32.Parse(sSplit[2]);
+                        Rectangle();
 
                     }
                     if (command == "circle")
                     {
                         width = Int32.Parse(sSplit[1]);
                         height = Int32.Parse(sSplit[2]);
-
+                        Circle();
                     }
                     if (command == "triangle")
                     {
@@ -104,6 +105,7 @@ namespace ASE
                         points[0] = new Point(point1x, point1y);
                         points[1] = new Point(point2x, point2y);
                         points[2] = new Point(point3x, point3y);
+                        Triangle();
                     }
                     else
                     {
@@ -117,7 +119,35 @@ namespace ASE
 
                 textBox1.Text = "";
                 richTextBox1.Text = "";
+                Refresh();
             }
+        }
+
+        //SHAPES
+        public void Rectangle()
+        {
+            Graphics g = Graphics.FromImage(myBitmap);
+            g.DrawRectangle(new Pen(Color.Black, 2), x, y, height, width);
+            Refresh();
+        }
+        public void Circle()
+        {
+            Graphics g = Graphics.FromImage(myBitmap);
+            g.DrawEllipse(new Pen(Color.Black, 2), x, y, height, width);
+            Refresh();
+        }
+        public void Triangle()
+        {
+            Graphics g = Graphics.FromImage(myBitmap);
+            g.DrawPolygon(new Pen(Color.Blue, 5), points);
+            Refresh();
+        }
+        //COMMANDS
+        public void DrawTo()
+        {
+            Graphics g = Graphics.FromImage(myBitmap);
+            g.DrawLine(new Pen(Color.Blue, 5), x, y, height, width);
+            Refresh();
         }
     }
 }
