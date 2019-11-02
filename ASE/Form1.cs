@@ -59,32 +59,51 @@ namespace ASE
 
                     if (command == "moveto")
                     {
-                        MessageBox.Show("in moveto");
+                        x = Int32.Parse(sSplit[1]);
+                        y = Int32.Parse(sSplit[2]);
                     }
                     if (command == "drawto")
                     {
-                        MessageBox.Show("in drawto");
+                        width = Int32.Parse(sSplit[1]);
+                        height = Int32.Parse(sSplit[2]);
+
                     }
                     if (command == "clear")
                     {
-                        MessageBox.Show("in clear");
+                        Graphics g = Graphics.FromImage(myBitmap);
+                        g.Clear(Color.White);
+                        Refresh();
                     }
                     if (command == "reset")
                     {
-                        MessageBox.Show("in reset");
+                        x = 0;
+                        y = 0;
                     }
                     //Shapes
                     if (command == "rectangle")
                     {
-                        MessageBox.Show("in rectangle");
+                        width = Int32.Parse(sSplit[1]);
+                        height = Int32.Parse(sSplit[2]);
+
                     }
                     if (command == "circle")
                     {
-                        MessageBox.Show("in circle");
+                        width = Int32.Parse(sSplit[1]);
+                        height = Int32.Parse(sSplit[2]);
+
                     }
                     if (command == "triangle")
                     {
-                        MessageBox.Show("in triangle");
+                        point1x = Int32.Parse(sSplit[1]);
+                        point1y = Int32.Parse(sSplit[2]);
+                        point2x = Int32.Parse(sSplit[3]);
+                        point2y = Int32.Parse(sSplit[4]);
+                        point3x = Int32.Parse(sSplit[5]);
+                        point3y = Int32.Parse(sSplit[6]);
+
+                        points[0] = new Point(point1x, point1y);
+                        points[1] = new Point(point2x, point2y);
+                        points[2] = new Point(point3x, point3y);
                     }
                     else
                     {
