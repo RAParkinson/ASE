@@ -19,6 +19,17 @@ namespace ASE
         Point[] points = new Point[3];
         int point1x = 0, point2x = 0, point3x = 0;
         int point1y = 0, point2y = 0, point3y = 0;
+        RichTextBox hiddenRTB = new RichTextBox();
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("*Feature coming soon*");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("*Feature coming soon*");
+        }
 
         public Form1()
         {
@@ -35,7 +46,6 @@ namespace ASE
 
         private void button1_Click(object sender, EventArgs e)
         {
-            RichTextBox hiddenRTB = new RichTextBox();
 
             if (textBox1.Text == "run")
             {
