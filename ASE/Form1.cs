@@ -13,10 +13,14 @@ namespace ASE
 {
     public partial class Form1 : Form
     {
+        Shapes shape = new Shapes();
+        
         //Declares global variables and assigns them a value
-        Bitmap myBitmap;
+        //Bitmap myBitmap;
         string temp = "", command = "";
-        int x = 0, y = 0, width = 0, height = 0;
+        int x = 0, y = 0;
+        public int width = 0;
+        public int height = 0;
         Point[] points = new Point[3];
         int point1x = 0, point2x = 0, point3x = 0;
         int point1y = 0, point2y = 0, point3y = 0;
@@ -40,14 +44,13 @@ namespace ASE
         {
             InitializeComponent();
 
-            myBitmap = new Bitmap(Size.Width, Size.Height);
-            Graphics g = Graphics.FromImage(myBitmap);
+            shape.bMap(Size.Width, Size.Height);
         }
 
         //Event handler for painting the panel
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImageUnscaled(myBitmap, 0, 0);
+            e.Graphics.DrawImageUnscaled(shape.myBitmap, 0, 0);
         }
 
         //Event handler for the Submit button
@@ -58,7 +61,7 @@ namespace ASE
             {
                 hiddenRTB = richTextBox1;
             }
-            if(textBox1.Text == "")
+            else if(textBox1.Text == "")
             {
                 //Displays message box to the user
                 MessageBox.Show("No command entered, please try again.");
@@ -88,50 +91,50 @@ namespace ASE
                         x = Int32.Parse(sSplit[1]);
                         y = Int32.Parse(sSplit[2]);
                     }
-                    if (command.Equals("drawto"))
+                    else if (command.Equals("drawto"))
                     {
                         //Converts string into integer and assigns the value
                         width = Int32.Parse(sSplit[1]);
                         height = Int32.Parse(sSplit[2]);
-                        
+
                         //Calls the DrawTo method
-                        DrawTo();
+                        shape.DrawTo(x, y, height, width);
                     }
-                    if (command.Equals("clear"))
+                    else if (command.Equals("clear"))
                     {
                         //Sets the bitmap colour to white
-                        Graphics g = Graphics.FromImage(myBitmap);
+                        Graphics g = Graphics.FromImage(shape.myBitmap);
                         g.Clear(Color.White);
                         
                         //Calls the Refresh method
                         Refresh();
                     }
-                    if (command.Equals("reset"))
+                    else if (command.Equals("reset"))
                     {
                         //Assigns value to x and y
                         x = 0;
                         y = 0;
                     }
                     //Shapes
-                    if (command.Equals("rectangle"))
+                    else if (command.Equals("rectangle"))
                     {
                         //Converts string into integer and assigns the value
                         width = Int32.Parse(sSplit[1]);
                         height = Int32.Parse(sSplit[2]);
 
                         //Calls the Rectangle method
-                        Rectangle();
+                        shape.Rectangle(x, y, height, width);
                     }
-                    if (command.Equals("circle"))
+                    else if (command.Equals("circle"))
                     {
                         //Converts string into integer and assigns the value
                         width = Int32.Parse(sSplit[1]);
                         height = Int32.Parse(sSplit[2]);
-                        
+
                         //Calls the Circle method
-                        Circle();
+                        shape.Circle(x, y, height, width);
                     }
-                    if (command.Equals("triangle"))
+                    else if (command.Equals("triangle"))
                     {
                         //Converts string into integer and assigns the value
                         point1x = Int32.Parse(sSplit[1]);
@@ -144,13 +147,13 @@ namespace ASE
                         points[0] = new Point(point1x, point1y);
                         points[1] = new Point(point2x, point2y);
                         points[2] = new Point(point3x, point3y);
-                        
+
                         //Calls the Triangle method
-                        Triangle();
+                        shape.Triangle();
                     }
                     else
                     {
-                        //MessageBox.Show("No valid command enter, please try again.");
+                        MessageBox.Show("No valid command enter, please try again.");
                     }
                 }
                 catch (FormatException)
@@ -162,38 +165,11 @@ namespace ASE
                 //Sets values for both richTextBox and textBox
                 textBox1.Text = "";
                 richTextBox1.Text = "";
-                hiddenRTB.Text = "";
+                //hiddenRTB.Text = "";
 
                 //Calls the Refresh method
                 Refresh();
             }
-        }
-
-        //SHAPES
-        public void Rectangle()
-        {
-            Graphics g = Graphics.FromImage(myBitmap);
-            g.DrawRectangle(new Pen(Color.Black, 2), x, y, height, width);
-            Refresh();
-        }
-        public void Circle()
-        {
-            Graphics g = Graphics.FromImage(myBitmap);
-            g.DrawEllipse(new Pen(Color.Black, 2), x, y, height, width);
-            Refresh();
-        }
-        public void Triangle()
-        {
-            Graphics g = Graphics.FromImage(myBitmap);
-            g.DrawPolygon(new Pen(Color.Blue, 5), points);
-            Refresh();
-        }
-        //COMMANDS
-        public void DrawTo()
-        {
-            Graphics g = Graphics.FromImage(myBitmap);
-            g.DrawLine(new Pen(Color.Blue, 5), x, y, height, width);
-            Refresh();
         }
     }
 }
