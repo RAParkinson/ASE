@@ -87,7 +87,9 @@ namespace ASE
 
             int i = 0;
 
-            while(lineArray[i] != null)
+            String[] ifArray = new string[10];
+
+            while (lineArray[i] != null)
             {
                 //MessageBox.Show(lineArray[i]);
 
@@ -164,13 +166,23 @@ namespace ASE
                     }
                     else if (command.StartsWith("if"))
                     {
-                        command = command.Remove(0, 2);
+                        lineArray[i] = lineArray[i].Remove(0, 2);
 
                         int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
 
-                        MessageBox.Show("Line number: " + endifLineNum);
+                        int ifCOunt = 0;
 
-                        String[] sSplitIf = command.Split('=');
+                        while(ifCOunt != endifLineNum)
+                        {
+                            ifArray[ifCOunt] = lineArray[i];
+
+                            MessageBox.Show(ifArray[ifCOunt]);
+
+                            ifCOunt++;
+                            i++;
+                        }
+                        
+                        /*String[] sSplitIf = command.Split('=');
 
                         string ifVariable = sSplitIf[0];
                         int ifValue = Int32.Parse(sSplitIf[1]);
@@ -190,7 +202,7 @@ namespace ASE
                         else
                         {
                             MessageBox.Show("No valid variable entered");
-                        }
+                        } */
                     }
                     else
                     {
@@ -202,6 +214,10 @@ namespace ASE
                     //Displays message box to the user
                     MessageBox.Show("Error when entering parameter, please try again.");
                 }
+
+                //Sets values for both richTextBox and textBox
+                textBox1.Text = "";
+                richTextBox1.Text = "";
 
                 Refresh();
                 i++;
