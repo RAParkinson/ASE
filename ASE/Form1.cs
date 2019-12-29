@@ -164,6 +164,27 @@ namespace ASE
                         //Calls the Triangle method
                         shape.Triangle();
                     }
+                    else if (command.StartsWith("radius="))
+                    {
+                        String[] sSplitRE = command.Split('=');
+                        int radiusValue = Int32.Parse(sSplitRE[1]);
+
+                        radius = radiusValue;
+                    }
+                    else if (command.StartsWith("width="))
+                    {
+                        String[] sSplitWE = command.Split('=');
+                        int widthValue = Int32.Parse(sSplitWE[1]);
+
+                        width = widthValue;
+                    }
+                    else if (command.StartsWith("height="))
+                    {
+                        String[] sSplitHE = command.Split('=');
+                        int heightValue = Int32.Parse(sSplitHE[1]);
+
+                        height = heightValue;
+                    }
                     else if (command.StartsWith("if"))
                     {
                         lineArray[i] = lineArray[i].Remove(0, 2);
@@ -181,28 +202,6 @@ namespace ASE
                             ifCOunt++;
                             i++;
                         }
-                        
-                        /*String[] sSplitIf = command.Split('=');
-
-                        string ifVariable = sSplitIf[0];
-                        int ifValue = Int32.Parse(sSplitIf[1]);
-
-                        if (ifVariable.Equals("width"))
-                        {
-                            width = ifValue;
-                        }
-                        else if (ifVariable.Equals("height"))
-                        {
-                            height = ifValue;
-                        }
-                        else if (ifVariable.Equals("radius"))
-                        {
-                            radius = ifValue;
-                        }
-                        else
-                        {
-                            MessageBox.Show("No valid variable entered");
-                        } */
                     }
                     else
                     {
