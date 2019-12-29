@@ -21,6 +21,7 @@ namespace ASE
         int x = 0, y = 0;
         public int width = 0;
         public int height = 0;
+        public int radius = 0;
         Point[] points = new Point[3];
         int point1x = 0, point2x = 0, point3x = 0;
         int point1y = 0, point2y = 0, point3y = 0;
@@ -71,7 +72,142 @@ namespace ASE
                 hiddenRTB.AppendText(textBox1.Text);
             }
 
+            String[] lineArray = new string[50];
+            int lineArrayCount = 0;
+
             foreach (var line in hiddenRTB.Lines)
+            {
+                temp = line;
+                temp = temp.ToLower();
+                temp = temp.Replace(" ", "");
+
+                lineArray[lineArrayCount] = temp;
+                lineArrayCount++;
+            }
+
+            int i = 0;
+
+            while(lineArray[i] != null)
+            {
+                //MessageBox.Show(lineArray[i]);
+
+                try
+                {
+                    //Splits string by the , character
+                    String[] sSplit = lineArray[i].Split(',');
+                    command = sSplit[0];
+
+                    if (command.Equals("moveto"))
+                    {
+                        //Converts string into integer and assigns the value
+                        x = Int32.Parse(sSplit[1]);
+                        y = Int32.Parse(sSplit[2]);
+                    }
+                    else if (command.Equals("drawto"))
+                    {
+                        //Converts string into integer and assigns the value
+                        width = Int32.Parse(sSplit[1]);
+                        height = Int32.Parse(sSplit[2]);
+
+                        //Calls the DrawTo method
+                        shape.DrawTo(x, y, height, width);
+                    }
+                    else if (command.Equals("clear"))
+                    {
+                        //Sets the bitmap colour to white
+                        Graphics g = Graphics.FromImage(shape.myBitmap);
+                        g.Clear(Color.White);
+
+                        //Calls the Refresh method
+                        Refresh();
+                    }
+                    else if (command.Equals("reset"))
+                    {
+                        //Assigns value to x and y
+                        x = 0;
+                        y = 0;
+                    }
+                    //Shapes
+                    else if (command.Equals("rectangle"))
+                    {
+                        //Converts string into integer and assigns the value
+                        width = Int32.Parse(sSplit[1]);
+                        height = Int32.Parse(sSplit[2]);
+
+                        //Calls the Rectangle method
+                        shape.Rectangle(x, y, height, width);
+                    }
+                    else if (command.Equals("circle"))
+                    {
+                        //Converts string into integer and assigns the value
+                        radius = Int32.Parse(sSplit[1]);
+
+                        //Calls the Circle method
+                        shape.Circle(x, y, radius);
+                    }
+                    else if (command.Equals("triangle"))
+                    {
+                        //Converts string into integer and assigns the value
+                        point1x = Int32.Parse(sSplit[1]);
+                        point1y = Int32.Parse(sSplit[2]);
+                        point2x = Int32.Parse(sSplit[3]);
+                        point2y = Int32.Parse(sSplit[4]);
+                        point3x = Int32.Parse(sSplit[5]);
+                        point3y = Int32.Parse(sSplit[6]);
+
+                        points[0] = new Point(point1x, point1y);
+                        points[1] = new Point(point2x, point2y);
+                        points[2] = new Point(point3x, point3y);
+
+                        //Calls the Triangle method
+                        shape.Triangle();
+                    }
+                    else if (command.StartsWith("if"))
+                    {
+                        command = command.Remove(0, 2);
+
+                        int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
+
+                        MessageBox.Show("Line number: " + endifLineNum);
+
+                        String[] sSplitIf = command.Split('=');
+
+                        string ifVariable = sSplitIf[0];
+                        int ifValue = Int32.Parse(sSplitIf[1]);
+
+                        if (ifVariable.Equals("width"))
+                        {
+                            width = ifValue;
+                        }
+                        else if (ifVariable.Equals("height"))
+                        {
+                            height = ifValue;
+                        }
+                        else if (ifVariable.Equals("radius"))
+                        {
+                            radius = ifValue;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No valid variable entered");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No valid command entered, please try again.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    //Displays message box to the user
+                    MessageBox.Show("Error when entering parameter, please try again.");
+                }
+
+                Refresh();
+                i++;
+            }
+
+            /*foreach (var line in hiddenRTB.Lines)
             {
                 temp = line;
                 //Sets all characters to lowercase 
@@ -128,11 +264,10 @@ namespace ASE
                     else if (command.Equals("circle"))
                     {
                         //Converts string into integer and assigns the value
-                        width = Int32.Parse(sSplit[1]);
-                        height = Int32.Parse(sSplit[2]);
+                        radius = Int32.Parse(sSplit[1]);
 
                         //Calls the Circle method
-                        shape.Circle(x, y, height, width);
+                        shape.Circle(x, y, radius);
                     }
                     else if (command.Equals("triangle"))
                     {
@@ -151,9 +286,39 @@ namespace ASE
                         //Calls the Triangle method
                         shape.Triangle();
                     }
+                    else if (command.StartsWith("if"))
+                    {
+                        command = command.Remove(0, 2);
+
+                        int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
+
+                        MessageBox.Show("Line number: " +endifLineNum);
+
+                        String[] sSplitIf = command.Split('=');
+
+                        string ifVariable = sSplitIf[0];
+                        int ifValue = Int32.Parse(sSplitIf[1]);
+
+                        if (ifVariable.Equals("width"))
+                        {
+                            width = ifValue;
+                        }
+                        else if (ifVariable.Equals("height"))
+                        {
+                            height = ifValue;
+                        }
+                        else if (ifVariable.Equals("radius"))
+                        {
+                            radius = ifValue;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No valid variable entered");
+                        }
+                    }
                     else
                     {
-                        MessageBox.Show("No valid command enter, please try again.");
+                        MessageBox.Show("No valid command entered, please try again.");
                     }
                 }
                 catch (FormatException)
@@ -165,11 +330,12 @@ namespace ASE
                 //Sets values for both richTextBox and textBox
                 textBox1.Text = "";
                 richTextBox1.Text = "";
-                //hiddenRTB.Text = "";
+
+                lineNum++;
 
                 //Calls the Refresh method
                 Refresh();
-            }
+            } */
         }
     }
 }
