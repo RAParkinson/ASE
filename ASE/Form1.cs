@@ -206,6 +206,27 @@ namespace ASE
 
                         height = height+heightAdd;
                     }
+                    else if (command.StartsWith("radius-"))
+                    {
+                        String[] sSplitRS = command.Split('-');
+                        int radiusSubtract = Int32.Parse(sSplitRS[1]);
+
+                        radius = radius + radiusSubtract;
+                    }
+                    else if (command.StartsWith("width-"))
+                    {
+                        String[] sSplitWS = command.Split('-');
+                        int widthSubtract = Int32.Parse(sSplitWS[1]);
+
+                        width = width + widthSubtract;
+                    }
+                    else if (command.StartsWith("height-"))
+                    {
+                        String[] sSplitHS = command.Split('-');
+                        int heightSubtract = Int32.Parse(sSplitHS[1]);
+
+                        height = height + heightSubtract;
+                    }
                     else if (command.StartsWith("if"))
                     {
                         lineArray[i] = lineArray[i].Remove(0, 2);
