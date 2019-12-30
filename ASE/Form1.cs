@@ -132,20 +132,48 @@ namespace ASE
                     //Shapes
                     else if (command.Equals("rectangle"))
                     {
-                        //Converts string into integer and assigns the value
-                        width = Int32.Parse(sSplit[1]);
-                        height = Int32.Parse(sSplit[2]);
+                        try
+                        {
+                            //Converts string into integer and assigns the value
+                            width = Int32.Parse(sSplit[1]);
+                            height = Int32.Parse(sSplit[2]);
 
-                        //Calls the Rectangle method
-                        shape.Rectangle(x, y, height, width);
+                            //Calls the Rectangle method
+                            shape.Rectangle(x, y, height, width);
+                        }
+                        catch
+                        {
+                            if(sSplit[1].Equals("width") && sSplit[2].Equals("height"))
+                            {
+                                shape.Rectangle(x, y, height, width);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Width or Height parameters entered incorrectly");
+                            }
+                        }
                     }
                     else if (command.Equals("circle"))
                     {
-                        //Converts string into integer and assigns the value
-                        radius = Int32.Parse(sSplit[1]);
+                        try
+                        {
+                            //Converts string into integer and assigns the value
+                            radius = Int32.Parse(sSplit[1]);
 
-                        //Calls the Circle method
-                        shape.Circle(x, y, radius);
+                            //Calls the Circle method
+                            shape.Circle(x, y, radius);
+                        }
+                        catch
+                        {
+                            if (sSplit[1].Equals("radius"))
+                            {
+                                shape.Circle(x, y, radius);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Radius parameter entered incorrectly");
+                            }
+                        }
                     }
                     else if (command.Equals("triangle"))
                     {
