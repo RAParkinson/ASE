@@ -31,7 +31,8 @@ namespace ASE
 
         int loopLineNum = 0;
 
-        int userCount = 0; int loopCount = 1;
+        int userCount = 0; int userCount2 = 0;  int loopCount = 1;
+        Boolean bCount = false;
 
         //Event handler for the Load button
         private void button2_Click(object sender, EventArgs e)
@@ -310,29 +311,42 @@ namespace ASE
                     {
                         String[] sSplitLoop = lineArray[i].Split(new string[] { "for" }, StringSplitOptions.None);
 
-                        MessageBox.Show(sSplitLoop[0]);
-                        MessageBox.Show(sSplitLoop[1]);
-
                         int endloopLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endloop"));
 
-                        loopLineNum = i;
-                    }
-                    else if (command.Equals("endif"))
-                    {
-                        if (userCount != loopCount)
+                        if (sSplitLoop[1].Equals("count"))
                         {
-                            i = loopLineNum;
-                            loopCount++;
-                        }
-                        else if (userCount == loopCount)
-                        {
-                            
+                            userCount2 = userCount;
+                            bCount = true;
                         }
                         else
                         {
-                            MessageBox.Show("No valid count entered");
+                            MessageBox.Show("No value assigned to count");
+                            i = endloopLineNum++;
+                        }
+
+
+                        loopLineNum = i;
+                    }
+                    else if (command.Equals("endloop"))
+                    {
+                        if (bCount == true)
+                        {
+                            if (userCount2 != loopCount)
+                            {
+                                i = loopLineNum;
+                                loopCount++;
+                            }
+                            else if (userCount2 == loopCount)
+                            {
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("No valid count entered");
+                            }
                         }
                     }
+                    //Method
                     else
                     {
                         MessageBox.Show("No valid command entered, please try again.");
