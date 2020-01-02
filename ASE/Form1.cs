@@ -16,7 +16,6 @@ namespace ASE
         Shapes shape = new Shapes();
         
         //Declares global variables and assigns them a value
-        //Bitmap myBitmap;
         string temp = "", command = "";
         int x = 0, y = 0;
         public int width = 0;
@@ -35,6 +34,8 @@ namespace ASE
         Boolean bCount = false;
 
         int methodLocation = 0;
+
+        int ifRadius = 0; int ifWidth = 0; int ifHeight = 0;
 
         //Event handler for the Load button
         private void button2_Click(object sender, EventArgs e)
@@ -96,7 +97,7 @@ namespace ASE
 
             int i = 0;
 
-            String[] ifArray = new string[10];
+            String[] ifArray = new string[2];
             String[] methodArray = new string[2];
 
             while (lineArray[i] != null)
@@ -114,6 +115,8 @@ namespace ASE
                         //Converts string into integer and assigns the value
                         x = Int32.Parse(sSplit[1]);
                         y = Int32.Parse(sSplit[2]);
+
+                        i++;
                     }
                     else if (command.Equals("drawto"))
                     {
@@ -123,6 +126,8 @@ namespace ASE
 
                         //Calls the DrawTo method
                         shape.DrawTo(x, y, height, width);
+
+                        i++;
                     }
                     else if (command.Equals("clear"))
                     {
@@ -132,12 +137,16 @@ namespace ASE
 
                         //Calls the Refresh method
                         Refresh();
+
+                        i++;
                     }
                     else if (command.Equals("reset"))
                     {
                         //Assigns value to x and y
                         x = 0;
                         y = 0;
+
+                        i++;
                     }
                     //Shapes
                     else if (command.Equals("rectangle"))
@@ -150,12 +159,16 @@ namespace ASE
 
                             //Calls the Rectangle method
                             shape.Rectangle(x, y, height, width);
+
+                            i++;
                         }
                         catch
                         {
                             if (sSplit[1].Equals("width") && sSplit[2].Equals("height"))
                             {
                                 shape.Rectangle(x, y, height, width);
+
+                                i++;
                             }
                             else
                             {
@@ -172,12 +185,16 @@ namespace ASE
 
                             //Calls the Circle method
                             shape.Circle(x, y, radius);
+
+                            i++;
                         }
                         catch
                         {
                             if (sSplit[1].Equals("radius"))
                             {
                                 shape.Circle(x, y, radius);
+
+                                i++;
                             }
                             else
                             {
@@ -201,6 +218,8 @@ namespace ASE
 
                         //Calls the Triangle method
                         shape.Triangle();
+
+                        i++;
                     }
                     //Parameters
                     else if (command.StartsWith("radius="))
@@ -209,6 +228,8 @@ namespace ASE
                         int radiusValue = Int32.Parse(sSplitRE[1]);
 
                         radius = radiusValue;
+
+                        i++;
                     }
                     else if (command.StartsWith("width="))
                     {
@@ -216,6 +237,8 @@ namespace ASE
                         int widthValue = Int32.Parse(sSplitWE[1]);
 
                         width = widthValue;
+
+                        i++;
                     }
                     else if (command.StartsWith("height="))
                     {
@@ -223,6 +246,8 @@ namespace ASE
                         int heightValue = Int32.Parse(sSplitHE[1]);
 
                         height = heightValue;
+
+                        i++;
                     }
                     else if (command.StartsWith("radius+"))
                     {
@@ -230,6 +255,8 @@ namespace ASE
                         int radiusAdd = Int32.Parse(sSplitRA[1]);
 
                         radius = radius + radiusAdd;
+
+                        i++;
                     }
                     else if (command.StartsWith("width+"))
                     {
@@ -237,6 +264,8 @@ namespace ASE
                         int widthAdd = Int32.Parse(sSplitWA[1]);
 
                         width = width + widthAdd;
+
+                        i++;
                     }
                     else if (command.StartsWith("height+"))
                     {
@@ -244,6 +273,8 @@ namespace ASE
                         int heightAdd = Int32.Parse(sSplitHA[1]);
 
                         height = height + heightAdd;
+
+                        i++;
                     }
                     else if (command.StartsWith("radius-"))
                     {
@@ -251,6 +282,8 @@ namespace ASE
                         int radiusSubtract = Int32.Parse(sSplitRS[1]);
 
                         radius = radius + radiusSubtract;
+
+                        i++;
                     }
                     else if (command.StartsWith("width-"))
                     {
@@ -258,6 +291,8 @@ namespace ASE
                         int widthSubtract = Int32.Parse(sSplitWS[1]);
 
                         width = width + widthSubtract;
+
+                        i++;
                     }
                     else if (command.StartsWith("height-"))
                     {
@@ -265,16 +300,20 @@ namespace ASE
                         int heightSubtract = Int32.Parse(sSplitHS[1]);
 
                         height = height + heightSubtract;
+
+                        i++;
                     }
                     else if (command.StartsWith("count="))
                     {
                         String[] sSplitCount = command.Split('=');
                         userCount = Int32.Parse(sSplitCount[1]);
+
+                        i++;
                     }
                     //If
                     else if (command.StartsWith("if"))
                     {
-                        lineArray[i] = lineArray[i].Remove(0, 2);
+                        /* lineArray[i] = lineArray[i].Remove(0, 2);
 
                         int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
 
@@ -307,8 +346,40 @@ namespace ASE
                             String[] sSplitTempR = ifArray[0].Split('=');
 
                             tempHeight = Int32.Parse(sSplitTempR[1]);
+                        } */
+
+                        ifArray[0] = lineArray[i].Remove(0, 2);
+
+                        int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
+
+                        ifArray[1] = "" + i++;
+
+                        i = endifLineNum++;
+
+                        if (ifArray[0].StartsWith("radius="))
+                        {
+                            String[] sSplitTempR = ifArray[0].Split('=');
+
+                            ifRadius = Int32.Parse(sSplitTempR[1]);
+                        }
+                        if (ifArray[0].StartsWith("width="))
+                        {
+                            String[] sSplitTempR = ifArray[0].Split('=');
+
+                            ifWidth = Int32.Parse(sSplitTempR[1]);
+                        }
+                        if (ifArray[0].StartsWith("height="))
+                        {
+                            String[] sSplitTempR = ifArray[0].Split('=');
+
+                            ifHeight = Int32.Parse(sSplitTempR[1]);
                         }
                     }
+                    /*else if(radius.Equals(ifRadius))
+                    {
+                        //ifLocation = i;
+                        //i = Int32.Parse(methodArray[1]);
+                    } */
                     //Loop
                     else if (command.StartsWith("loop"))
                     {
@@ -320,13 +391,14 @@ namespace ASE
                         {
                             userCount2 = userCount;
                             bCount = true;
+
+                            i++;
                         }
                         else
                         {
                             MessageBox.Show("No value assigned to count");
                             i = endloopLineNum++;
                         }
-
 
                         loopLineNum = i;
                     }
@@ -341,7 +413,7 @@ namespace ASE
                             }
                             else if (userCount2 == loopCount)
                             {
-
+                                i++;
                             }
                             else
                             {
@@ -354,20 +426,21 @@ namespace ASE
                     {
                         methodArray[0] = lineArray[i].Remove(0, 6);
 
-                        int endmethodLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endmethod"));
+                        int endmethodLineNum = Array.FindIndex(lineArray, row => row.Contains("endmethod"));
 
-                        methodArray[1] = ""+i++;
+                        i++;
+                        methodArray[1] = ""+i;
 
-                        i = endmethodLineNum++;
+                        i = endmethodLineNum + 1;
                     }
                     else if (command.Equals(methodArray[0]))
                     {
                         methodLocation = i;
-                        i = Int32.Parse(methodArray[1]); 
+                        i = Int32.Parse(methodArray[1]);
                     }
                     else if (command.Equals("endmethod"))
                     {
-                        i = methodLocation;
+                        i = methodLocation + 1;
                     }
                     else
                     {
@@ -385,7 +458,8 @@ namespace ASE
                 richTextBox1.Text = "";
 
                 Refresh();
-                i++;
+
+                //MessageBox.Show("what i is at the end of each loop :"+i);
             }
         }
     }
