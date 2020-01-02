@@ -34,6 +34,8 @@ namespace ASE
         int userCount = 0; int userCount2 = 0;  int loopCount = 1;
         Boolean bCount = false;
 
+        int methodLocation = 0;
+
         //Event handler for the Load button
         private void button2_Click(object sender, EventArgs e)
         {
@@ -95,6 +97,7 @@ namespace ASE
             int i = 0;
 
             String[] ifArray = new string[10];
+            String[] methodArray = new string[2];
 
             while (lineArray[i] != null)
             {
@@ -150,7 +153,7 @@ namespace ASE
                         }
                         catch
                         {
-                            if(sSplit[1].Equals("width") && sSplit[2].Equals("height"))
+                            if (sSplit[1].Equals("width") && sSplit[2].Equals("height"))
                             {
                                 shape.Rectangle(x, y, height, width);
                             }
@@ -226,21 +229,21 @@ namespace ASE
                         String[] sSplitRA = command.Split('+');
                         int radiusAdd = Int32.Parse(sSplitRA[1]);
 
-                        radius = radius+radiusAdd;
+                        radius = radius + radiusAdd;
                     }
                     else if (command.StartsWith("width+"))
                     {
                         String[] sSplitWA = command.Split('+');
                         int widthAdd = Int32.Parse(sSplitWA[1]);
 
-                        width = width+widthAdd;
+                        width = width + widthAdd;
                     }
                     else if (command.StartsWith("height+"))
                     {
                         String[] sSplitHA = command.Split('+');
                         int heightAdd = Int32.Parse(sSplitHA[1]);
 
-                        height = height+heightAdd;
+                        height = height + heightAdd;
                     }
                     else if (command.StartsWith("radius-"))
                     {
@@ -277,7 +280,7 @@ namespace ASE
 
                         int ifCOunt = 0;
 
-                        while(ifCOunt != endifLineNum)
+                        while (ifCOunt != endifLineNum)
                         {
                             ifArray[ifCOunt] = lineArray[i];
 
@@ -347,6 +350,25 @@ namespace ASE
                         }
                     }
                     //Method
+                    else if (command.StartsWith("method"))
+                    {
+                        methodArray[0] = lineArray[i].Remove(0, 6);
+
+                        int endmethodLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endmethod"));
+
+                        methodArray[1] = ""+i++;
+
+                        i = endmethodLineNum++;
+                    }
+                    else if (command.Equals(methodArray[0]))
+                    {
+                        methodLocation = i;
+                        i = Int32.Parse(methodArray[1]); 
+                    }
+                    else if (command.Equals("endmethod"))
+                    {
+                        i = methodLocation;
+                    }
                     else
                     {
                         MessageBox.Show("No valid command entered, please try again.");
