@@ -35,8 +35,17 @@ namespace ASE
         int methodLocation = 0;
 
         int ifRadius = 0; int ifWidth = 0; int ifHeight = 0;
-
         int ifLocation = 0;
+
+        int i = 0;
+
+        String[] ifArray = new string[2];
+        String[] methodArray = new string[2];
+
+        String[] lineArray = new string[50];
+        int lineArrayCount = 0;
+
+        int penSize = 2;
 
         //Event handler for the Load button
         private void button2_Click(object sender, EventArgs e)
@@ -49,7 +58,8 @@ namespace ASE
         private void button3_Click(object sender, EventArgs e)
         {
             //Displays message box to the user
-            MessageBox.Show("*Save feature coming soon*");
+            shape.Save();
+            MessageBox.Show("Image saved to the Desktop.");
         }
 
         public Form1()
@@ -83,9 +93,6 @@ namespace ASE
                 hiddenRTB.AppendText(textBox1.Text);
             }
 
-            String[] lineArray = new string[50];
-            int lineArrayCount = 0;
-
             foreach (var line in hiddenRTB.Lines)
             {
                 temp = line;
@@ -96,12 +103,7 @@ namespace ASE
                 lineArrayCount++;
             }
 
-            int i = 0;
-
-            String[] ifArray = new string[2];
-            String[] methodArray = new string[2];
-
-            while (lineArray[i] != null)
+            while(i != lineArrayCount)
             {
                 //MessageBox.Show(lineArray[i]);
 
@@ -126,7 +128,7 @@ namespace ASE
                         height = Int32.Parse(sSplit[2]);
 
                         //Calls the DrawTo method
-                        shape.DrawTo(x, y, height, width);
+                        shape.DrawTo(x, y, height, width, penSize);
 
                         i++;
                     }
@@ -147,6 +149,8 @@ namespace ASE
                         x = 0;
                         y = 0;
 
+                        penSize = 2;
+
                         i++;
                     }
                     //Shapes
@@ -159,7 +163,7 @@ namespace ASE
                             height = Int32.Parse(sSplit[2]);
 
                             //Calls the Rectangle method
-                            shape.Rectangle(x, y, height, width);
+                            shape.Rectangle(x, y, height, width, penSize);
 
                             i++;
                         }
@@ -167,13 +171,14 @@ namespace ASE
                         {
                             if (sSplit[1].Equals("width") && sSplit[2].Equals("height"))
                             {
-                                shape.Rectangle(x, y, height, width);
+                                shape.Rectangle(x, y, height, width, penSize);
 
                                 i++;
                             }
                             else
                             {
                                 MessageBox.Show("Width or Height parameters entered incorrectly");
+                                i++;
                             }
                         }
                     }
@@ -185,7 +190,7 @@ namespace ASE
                             radius = Int32.Parse(sSplit[1]);
 
                             //Calls the Circle method
-                            shape.Circle(x, y, radius);
+                            shape.Circle(x, y, radius, penSize);
 
                             i++;
                         }
@@ -193,34 +198,43 @@ namespace ASE
                         {
                             if (sSplit[1].Equals("radius"))
                             {
-                                shape.Circle(x, y, radius);
+                                shape.Circle(x, y, radius, penSize);
 
                                 i++;
                             }
                             else
                             {
-                                MessageBox.Show("Radius parameter entered incorrectly");
+                                MessageBox.Show("Radius parameter entered incorrectly");;
+                                i++;
                             }
                         }
                     }
                     else if (command.Equals("triangle"))
                     {
-                        //Converts string into integer and assigns the value
-                        point1x = Int32.Parse(sSplit[1]);
-                        point1y = Int32.Parse(sSplit[2]);
-                        point2x = Int32.Parse(sSplit[3]);
-                        point2y = Int32.Parse(sSplit[4]);
-                        point3x = Int32.Parse(sSplit[5]);
-                        point3y = Int32.Parse(sSplit[6]);
+                        try
+                        {
+                            //Converts string into integer and assigns the value
+                            point1x = Int32.Parse(sSplit[1]);
+                            point1y = Int32.Parse(sSplit[2]);
+                            point2x = Int32.Parse(sSplit[3]);
+                            point2y = Int32.Parse(sSplit[4]);
+                            point3x = Int32.Parse(sSplit[5]);
+                            point3y = Int32.Parse(sSplit[6]);
 
-                        points[0] = new Point(point1x, point1y);
-                        points[1] = new Point(point2x, point2y);
-                        points[2] = new Point(point3x, point3y);
+                            points[0] = new Point(point1x, point1y);
+                            points[1] = new Point(point2x, point2y);
+                            points[2] = new Point(point3x, point3y);
 
-                        //Calls the Triangle method
-                        shape.Triangle();
+                            //Calls the Triangle method
+                            shape.Triangle(points[0], points[1], points[2], penSize);
 
-                        i++;
+                            i++;
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Error when entering points on the triangle");
+                            i++;
+                        }
                     }
                     //Parameters
                     else if (command.StartsWith("radius="))
@@ -410,15 +424,39 @@ namespace ASE
                     {
                         i = methodLocation + 1;
                     }
+                    //Additional commands
+                    else if (command.StartsWith("pensize="))
+                    {
+                        String[] sSplitPenSize = command.Split('=');
+                        penSize = Int32.Parse(sSplitPenSize[1]);
+
+                        i++;
+                    }
+                    else if (command.StartsWith("pensize+"))
+                    {
+                        String[] sSplitPenSizeA = command.Split('+');
+                        penSize = penSize + Int32.Parse(sSplitPenSizeA[1]);
+
+                        i++;
+                    }
+                    else if (command.StartsWith("pensize-"))
+                    {
+                        String[] sSplitPenSizeS = command.Split('-');
+                        penSize = penSize - Int32.Parse(sSplitPenSizeS[1]);
+
+                        i++;
+                    }
                     else
                     {
                         MessageBox.Show("No valid command entered, please try again.");
+                        i++;
                     }
                 }
                 catch (FormatException)
                 {
                     //Displays message box to the user
                     MessageBox.Show("Error when entering parameter, please try again.");
+                    i++;
                 }
 
                 if(radius.Equals(ifRadius) && radius != 0 && bIf == true)
