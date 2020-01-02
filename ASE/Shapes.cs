@@ -22,26 +22,22 @@ namespace ASE
         {
             Graphics g = Graphics.FromImage(myBitmap);
             g.DrawRectangle(new Pen(Color.Black, 2), x, y, height, width);
-            //Refresh();
         }
         public void Circle(int x, int y, int radius)
         {
             Graphics g = Graphics.FromImage(myBitmap);
             g.DrawEllipse(new Pen(Color.Black, 2), x, y, radius, radius);
-            //Refresh();
         }
         public void Triangle()
         {
             Graphics g = Graphics.FromImage(myBitmap);
             //g.DrawPolygon(new Pen(Color.Black, 2), points);
-            //Refresh();
         }
         //COMMANDS
         public void DrawTo(int x, int y, int height, int width)
         {
             Graphics g = Graphics.FromImage(myBitmap);
             g.DrawLine(new Pen(Color.Black, 2), x, y, height, width);
-            //Refresh();
         }
     }
 }

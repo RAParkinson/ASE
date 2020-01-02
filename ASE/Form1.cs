@@ -26,16 +26,17 @@ namespace ASE
         int point1y = 0, point2y = 0, point3y = 0;
         RichTextBox hiddenRTB = new RichTextBox();
 
-        int tempRadius = 0; int tempWidth = 0; int tempHeight = 0;
-
         int loopLineNum = 0;
 
         int userCount = 0; int userCount2 = 0;  int loopCount = 1;
         Boolean bCount = false;
+        Boolean bIf = false;
 
         int methodLocation = 0;
 
         int ifRadius = 0; int ifWidth = 0; int ifHeight = 0;
+
+        int ifLocation = 0;
 
         //Event handler for the Load button
         private void button2_Click(object sender, EventArgs e)
@@ -313,48 +314,14 @@ namespace ASE
                     //If
                     else if (command.StartsWith("if"))
                     {
-                        /* lineArray[i] = lineArray[i].Remove(0, 2);
-
-                        int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
-
-                        int ifCOunt = 0;
-
-                        while (ifCOunt != endifLineNum)
-                        {
-                            ifArray[ifCOunt] = lineArray[i];
-
-                            MessageBox.Show(ifArray[ifCOunt]);
-
-                            ifCOunt++;
-                            i++;
-                        }
-
-                        if (ifArray[0].StartsWith("radius="))
-                        {
-                            String[] sSplitTempR = ifArray[0].Split('=');
-
-                            tempRadius = Int32.Parse(sSplitTempR[1]);
-                        }
-                        if (ifArray[0].StartsWith("width="))
-                        {
-                            String[] sSplitTempR = ifArray[0].Split('=');
-
-                            tempWidth = Int32.Parse(sSplitTempR[1]);
-                        }
-                        if (ifArray[0].StartsWith("height="))
-                        {
-                            String[] sSplitTempR = ifArray[0].Split('=');
-
-                            tempHeight = Int32.Parse(sSplitTempR[1]);
-                        } */
-
                         ifArray[0] = lineArray[i].Remove(0, 2);
 
-                        int endifLineNum = hiddenRTB.GetLineFromCharIndex(hiddenRTB.Find("endif"));
+                        int endifLineNum = Array.FindIndex(lineArray, row => row.Contains("endif"));
 
-                        ifArray[1] = "" + i++;
+                        i++;
+                        ifArray[1] = ""+i;
 
-                        i = endifLineNum++;
+                        i = endifLineNum + 1;
 
                         if (ifArray[0].StartsWith("radius="))
                         {
@@ -374,12 +341,13 @@ namespace ASE
 
                             ifHeight = Int32.Parse(sSplitTempR[1]);
                         }
+
+                        bIf = true;
                     }
-                    /*else if(radius.Equals(ifRadius))
+                    else if (command.Equals("endif"))
                     {
-                        //ifLocation = i;
-                        //i = Int32.Parse(methodArray[1]);
-                    } */
+                        i = ifLocation;
+                    }
                     //Loop
                     else if (command.StartsWith("loop"))
                     {
@@ -451,6 +419,28 @@ namespace ASE
                 {
                     //Displays message box to the user
                     MessageBox.Show("Error when entering parameter, please try again.");
+                }
+
+                if(radius.Equals(ifRadius) && radius != 0 && bIf == true)
+                {
+                    ifLocation = i + 1;
+                    i = Int32.Parse(ifArray[1]);
+
+                    bIf = false;
+                }
+                if (width.Equals(ifWidth) && width != 0 && bIf == true)
+                {
+                    ifLocation = i + 1;
+                    i = Int32.Parse(ifArray[1]);
+
+                    bIf = false;
+                }
+                if (height.Equals(ifHeight) && height != 0 && bIf == true)
+                {
+                    ifLocation = i + 1;
+                    i = Int32.Parse(ifArray[1]);
+
+                    bIf = false;
                 }
 
                 //Sets values for both richTextBox and textBox
